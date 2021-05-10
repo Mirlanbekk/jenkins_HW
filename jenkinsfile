@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('jenkins-aws-secret-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws-secret-access-key')
+    }
+    stages {    
+        stage('Terraform Init'){
+            input{
+                message 'Run terraform init?'
+                ok 'ok'
+            }
+            steps {
+                sh 'cd Infrastructure/'
+                sh 'terraform init'
+            }
+        
+        }
+        stage('Terraform Plan'){
+            input{
+                message 'Run terraform plan?'
+                ok 'OKK'
+            }
+            steps {
+                sh 'cd Infrastructure/'
+                sh 'terraform plan -auto-approve'
+            }
+
+        }
+        stage('Terraform Apply'){
+            input{
+                message 'Run terraform apply?'
+                ok 'OK'
+            }
+            steps {
+                sh 'cd Infrastructure/'
+                sh 'terraform apply -auto-approve'
+            }
+            
+        }
+        stage('Terraform Destroy'){
+            input{
+                message 'Run terraform destroy?'
+                ok 'go ahead'
+            }
+            steps {
+                sh 'cd Infrastructure/'
+                sh 'terraform destroy -auto-approve'
+            }
+            
+        }
+    }
+}
