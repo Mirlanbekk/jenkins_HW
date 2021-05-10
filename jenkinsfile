@@ -7,18 +7,30 @@ pipeline {
     stages {    
         stage('Terraform Init'){
             input{
-                message 'Run terraform init?'
-                ok 'Sure!'
+                message 'Run terraform init'
+                ok 'YES'
             }
             steps {
                 sh 'cd Infrastructure/ && terraform init'
             }
+
+
+        }
+        stage('Terraform Plan'){
+            input{
+                message 'Run terraform plan'
+                ok 'YES'
+            }
+            steps {
+                sh 'cd Infrastructure/ && terraform plan -auto-approve'
+            }
+        
             
         }
         stage('Terraform Apply'){
             input{
-                message 'Run terraform apply?'
-                ok 'Yes!'
+                message 'Run terraform apply'
+                ok 'YES'
             }
             steps {
                 sh 'cd Infrastructure/ && terraform apply -auto-approve'
@@ -27,8 +39,8 @@ pipeline {
         }
         stage('Terraform Destroy'){
             input{
-                message 'Run terraform destroy?'
-                ok 'Yes!!'
+                message 'Run terraform destroy'
+                ok 'OF COURSE'
             }
             steps {
                 sh 'cd Infrastructure/ && terraform destroy -auto-approve'
